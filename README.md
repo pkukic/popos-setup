@@ -48,9 +48,24 @@ Handles: JPG, PNG, GIF, BMP, WEBP, and more
 - **FreeCAD** - CAD and 3D parametric modeling
   - F3D, F3Z, STL files
 
-### Mathematical Tools
+### Mathematical & Scientific Tools
 - **GeoGebra** - Interactive mathematics software (via flatpak)
   - GGB files
+- **Octave** - MATLAB alternative
+  - MAT files
+- **MATLAB** - Numerical computing (manual install via `./install-matlab.sh`)
+- **LaTeX** - Document preparation
+  - TeXLive + TeXmaker editor
+  - TEX files
+
+### Circuit Design & HDL/FPGA
+- **Logisim** - Digital circuit simulator
+  - CIRC files
+- **GHDL** - VHDL simulator
+- **Iverilog** - Verilog simulator
+- **GTKWave** - Waveform viewer
+  - VHD, VHDL, V, SV files
+- **Vivado 2024.1** - Xilinx FPGA development (manual install via `./install-vivado.sh`)
 
 ### Learning Tools
 - **Anki** - Flashcard application
@@ -78,11 +93,21 @@ Handles: ZIP, GZ, BZ2, TAR
 - **htop** - System monitor
 - **tree** - Directory tree viewer
 - **tldr** - Simplified man pages
+- **curl, wget** - File retrieval tools
+
+### Development Tools
+- **Python** - uv package manager (modern, fast Python tool)
+- **Rust** - rustup/cargo toolchain
+- **Node.js** - npm and pnpm package managers
+- **Java** - OpenJDK and Maven build tool
+- **C/C++** - GCC, G++, CMake, make, pkg-config
+- **MiniZinc** - Constraint programming language
+- **CUDA** - NVIDIA CUDA Toolkit (optional, prompted during install)
 
 ## What It DOESN'T Install
 
 The script excludes:
-- **Source code development tools** - Install as needed per project (compilers, IDEs, etc.)
+- **IDEs** - Install your preferred IDE separately (VSCode, IntelliJ, etc.)
 - **Default Pop OS applications** - PDF viewers, basic text editors, basic image viewers
 
 ## Usage
