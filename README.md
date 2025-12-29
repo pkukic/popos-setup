@@ -101,6 +101,7 @@ Handles: ZIP, GZ, BZ2, TAR
 - **Java** - OpenJDK and Maven build tool
 - **C/C++** - GCC, G++, CMake, make, pkg-config
 - **R** - Statistical computing (r-base, r-base-dev, r-cran-rmarkdown)
+- **Haskell** - GHC (Glasgow Haskell Compiler) and Cabal build tool
 - **MiniZinc** - Constraint programming language
 - **Docker** - Containerization platform (docker.io, docker-compose)
 - **Zephyr RTOS** - Embedded development (west, toolchain dependencies)

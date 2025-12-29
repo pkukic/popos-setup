@@ -337,6 +337,11 @@ else
     echo -e "${GREEN}✓${NC} Docker already installed"
 fi
 
+# Haskell - Functional Programming
+echo ""
+install_if_missing "ghc"              # Glasgow Haskell Compiler
+install_if_missing "cabal-install"    # Haskell build tool
+
 # Zephyr RTOS - Embedded Development
 echo ""
 echo -e "${YELLOW}Zephyr RTOS for embedded development${NC}"
@@ -424,6 +429,7 @@ echo "  • Node.js - npm, pnpm"
 echo "  • Java - OpenJDK, Maven"
 echo "  • C/C++ - GCC, G++, CMake"
 echo "  • R - Statistical computing"
+echo "  • Haskell - GHC, Cabal"
 echo "  • MiniZinc - Constraint programming"
 echo "  • Docker - Containerization"
 echo "  • Zephyr RTOS - west, embedded toolchain"
