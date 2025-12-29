@@ -71,10 +71,9 @@ Handles: JPG, PNG, GIF, BMP, WEBP, and more
 - **Anki** - Flashcard application
   - APKG files
 
-### Virtualization (Optional)
+### Virtualization
 - **VirtualBox** - Virtual machine management
   - OVA files
-  - Installation prompt during script execution
 
 ### Font Management
 - **Font Manager** - GUI font management
@@ -97,12 +96,15 @@ Handles: ZIP, GZ, BZ2, TAR
 
 ### Development Tools
 - **Python** - uv package manager (modern, fast Python tool)
-- **Rust** - rustup/cargo toolchain
+- **Rust** - rustup/cargo toolchain (requires shell restart after install)
 - **Node.js** - npm and pnpm package managers
 - **Java** - OpenJDK and Maven build tool
 - **C/C++** - GCC, G++, CMake, make, pkg-config
+- **R** - Statistical computing (r-base, r-base-dev, r-cran-rmarkdown)
 - **MiniZinc** - Constraint programming language
-- **CUDA** - NVIDIA CUDA Toolkit (optional, prompted during install)
+- **Docker** - Containerization platform (docker.io, docker-compose)
+- **Zephyr RTOS** - Embedded development (west, toolchain dependencies)
+- **CUDA** - NVIDIA CUDA Toolkit for GPU computing
 
 ## What It DOESN'T Install
 
@@ -126,7 +128,8 @@ chmod +x install.sh
 2. Make the script executable: `chmod +x install.sh`
 3. Run the script: `./install.sh`
 4. Follow the prompts (script will ask for sudo password when needed)
-5. VirtualBox installation is optional - you'll be prompted
+5. After installation, restart your shell or run: `source "$HOME/.cargo/env"` to use Rust
+6. For Docker, log out and back in for group changes to take effect
 
 ## Requirements
 
@@ -148,15 +151,17 @@ All are handled automatically by the script.
 
 - The script skips packages already installed on your system
 - Pop OS already includes basic PDF viewers, text editors, and archive managers
-- Source code tools (compilers, IDEs) are not included - install per-project
 - All snaps and flatpaks are clearly indicated in the script output
+- After installation:
+  - Restart your shell to use Rust/cargo: `source "$HOME/.cargo/env"`
+  - Log out and back in to use Docker without sudo
+  - Initialize Zephyr workspace if needed: `west init ~/zephyrproject`
 
 ## Customization
 
 Edit `install.sh` to:
 - Comment out packages you don't need
 - Add additional packages
-- Modify the VirtualBox prompt behavior
 - Change installation methods (e.g., snap vs flatpak vs apt)
 
 ## Maintenance

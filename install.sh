@@ -209,14 +209,9 @@ install_if_missing "anki"
 echo ""
 echo -e "${BLUE}=== Virtualization ===${NC}"
 # For OVA (1) files - VirtualBox
-echo -e "${YELLOW}VirtualBox available for OVA files${NC}"
-read -p "Install VirtualBox? (y/N): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    install_if_missing "virtualbox"
-    # Note: virtualbox-ext-pack has dependency conflicts, install manually if needed
-    # Download from: https://www.virtualbox.org/wiki/Downloads
-fi
+install_if_missing "virtualbox"
+# Note: virtualbox-ext-pack has dependency conflicts, install manually if needed
+# Download from: https://www.virtualbox.org/wiki/Downloads
 
 # =============================================================================
 # FONT MANAGEMENT
@@ -279,7 +274,12 @@ echo ""
 if ! command -v cargo &> /dev/null; then
     echo -e "${YELLOW}Installing Rust via rustup...${NC}"
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+
+    # Source cargo environment for current session
     source "$HOME/.cargo/env"
+
+    echo -e "${GREEN}✓${NC} Rust installed"
+    echo -e "${YELLOW}Note:${NC} Restart your shell or run: source \"\$HOME/.cargo/env\""
 else
     echo -e "${GREEN}✓${NC} Rust already installed"
 fi
@@ -301,14 +301,10 @@ echo ""
 install_if_missing "default-jdk"       # OpenJDK
 install_if_missing "maven"             # Build tool
 
-# CUDA Toolkit (optional)
+# CUDA Toolkit
 echo ""
-echo -e "${YELLOW}CUDA Toolkit for GPU computing${NC}"
-read -p "Install NVIDIA CUDA Toolkit? (y/N): " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    install_if_missing "nvidia-cuda-toolkit"
-fi
+echo -e "${YELLOW}Installing CUDA Toolkit for GPU computing...${NC}"
+install_if_missing "nvidia-cuda-toolkit"
 
 # MiniZinc - Constraint Programming
 echo ""
@@ -317,6 +313,74 @@ if ! command -v minizinc &> /dev/null; then
     sudo snap install minizinc --classic
 else
     echo -e "${GREEN}✓${NC} MiniZinc already installed"
+fi
+
+# R - Statistical Computing
+echo ""
+install_if_missing "r-base"            # R programming language
+install_if_missing "r-base-dev"        # R development tools
+install_if_missing "r-cran-rmarkdown"  # R Markdown
+
+# Docker - Containerization
+echo ""
+echo -e "${YELLOW}Docker for containerization${NC}"
+if ! command -v docker &> /dev/null; then
+    echo -e "${YELLOW}Installing Docker...${NC}"
+    install_if_missing "docker.io"
+    install_if_missing "docker-compose"
+
+    # Add current user to docker group
+    sudo usermod -aG docker $USER
+    echo -e "${GREEN}✓${NC} Docker installed"
+    echo -e "${YELLOW}Note:${NC} Log out and back in for docker group changes to take effect"
+else
+    echo -e "${GREEN}✓${NC} Docker already installed"
+fi
+
+# Zephyr RTOS - Embedded Development
+echo ""
+echo -e "${YELLOW}Zephyr RTOS for embedded development${NC}"
+if ! command -v west &> /dev/null; then
+    echo -e "${YELLOW}Installing Zephyr dependencies and west...${NC}"
+
+    # Install Zephyr dependencies
+    install_if_missing "git"
+    install_if_missing "cmake"
+    install_if_missing "ninja-build"
+    install_if_missing "gperf"
+    install_if_missing "ccache"
+    install_if_missing "dfu-util"
+    install_if_missing "device-tree-compiler"
+    install_if_missing "wget"
+    install_if_missing "python3-dev"
+    install_if_missing "python3-pip"
+    install_if_missing "python3-setuptools"
+    install_if_missing "python3-tk"
+    install_if_missing "python3-wheel"
+    install_if_missing "xz-utils"
+    install_if_missing "file"
+    install_if_missing "make"
+    install_if_missing "gcc"
+    install_if_missing "gcc-multilib"
+    install_if_missing "g++-multilib"
+    install_if_missing "libsdl2-dev"
+    install_if_missing "libmagic1"
+
+    # Install west (Zephyr's meta-tool)
+    echo -e "${YELLOW}Installing west via pip...${NC}"
+    pip3 install --user --break-system-packages west
+
+    # Add ~/.local/bin to PATH if not already there
+    if [[ ":$PATH:" != *":$HOME/.local/bin:"* ]]; then
+        export PATH="$HOME/.local/bin:$PATH"
+    fi
+
+    echo -e "${GREEN}✓${NC} Zephyr dependencies and west installed"
+    echo -e "${YELLOW}Note:${NC} Add ~/.local/bin to your PATH if needed"
+    echo -e "${YELLOW}      Initialize Zephyr workspace with: west init ~/zephyrproject"
+    echo -e "${YELLOW}      Then: cd ~/zephyrproject && west update${NC}"
+else
+    echo -e "${GREEN}✓${NC} west already installed"
 fi
 
 # =============================================================================
@@ -359,6 +423,9 @@ echo "  • Rust - rustup/cargo"
 echo "  • Node.js - npm, pnpm"
 echo "  • Java - OpenJDK, Maven"
 echo "  • C/C++ - GCC, G++, CMake"
+echo "  • R - Statistical computing"
 echo "  • MiniZinc - Constraint programming"
+echo "  • Docker - Containerization"
+echo "  • Zephyr RTOS - west, embedded toolchain"
 echo "  • Build tools - make, pkg-config"
 echo ""
