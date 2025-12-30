@@ -112,6 +112,17 @@ install_if_missing "ffmpeg"            # Audio/video conversion
 # Subtitle editor for SRT (31) files
 install_if_missing "subtitleeditor"
 
+# Screen recording
+install_if_missing "simplescreenrecorder"
+
+# LosslessCut - video/audio trimming without re-encoding
+if ! flatpak list | grep -q "no.mifi.losslesscut"; then
+    echo -e "${YELLOW}Installing LosslessCut via flatpak...${NC}"
+    flatpak install -y flathub no.mifi.losslesscut
+else
+    echo -e "${GREEN}✓${NC} LosslessCut already installed"
+fi
+
 # =============================================================================
 # MEDIA CODECS
 # =============================================================================
@@ -128,6 +139,7 @@ echo -e "${BLUE}=== 3D Modeling & CAD ===${NC}"
 # For STL (12), OBJ (3), BLEND (1), F3D (10), F3Z (1) files
 install_if_missing "blender"           # 3D modeling (BLEND, STL, OBJ)
 install_if_missing "freecad"           # CAD tool (STL, F3D)
+install_if_missing "meshlab"           # 3D mesh processing/viewing
 
 # =============================================================================
 # MATHEMATICAL & SCIENTIFIC TOOLS
@@ -145,6 +157,9 @@ fi
 
 # Octave - MATLAB alternative for .mat files
 install_if_missing "octave"
+
+# SciDAVis - scientific graphing and data analysis
+install_if_missing "scidavis"
 
 # MATLAB dependencies
 echo ""
@@ -221,6 +236,20 @@ echo -e "${BLUE}=== Learning Tools ===${NC}"
 install_if_missing "anki"
 
 # =============================================================================
+# NOTE-TAKING & KNOWLEDGE MANAGEMENT
+# =============================================================================
+echo ""
+echo -e "${BLUE}=== Knowledge Management ===${NC}"
+
+# Obsidian - markdown-based knowledge base
+if ! flatpak list | grep -q "md.obsidian.Obsidian"; then
+    echo -e "${YELLOW}Installing Obsidian via flatpak...${NC}"
+    flatpak install -y flathub md.obsidian.Obsidian
+else
+    echo -e "${GREEN}✓${NC} Obsidian already installed"
+fi
+
+# =============================================================================
 # VIRTUALIZATION
 # =============================================================================
 echo ""
@@ -270,6 +299,14 @@ install_if_missing "wget"              # File retriever
 # =============================================================================
 echo ""
 echo -e "${BLUE}=== Development Tools ===${NC}"
+
+# Visual Studio Code
+if ! command -v code &> /dev/null; then
+    echo -e "${YELLOW}Installing VS Code via snap...${NC}"
+    sudo snap install code --classic
+else
+    echo -e "${GREEN}✓${NC} VS Code already installed"
+fi
 
 # Build essentials for C/C++
 install_if_missing "build-essential"   # GCC, G++, make
