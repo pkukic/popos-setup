@@ -54,6 +54,8 @@ Handles: JPG, PNG, GIF, BMP, WEBP, and more
 - **Octave** - MATLAB alternative
   - MAT files
 - **MATLAB** - Numerical computing (manual install via `./install-matlab.sh`)
+- **Conda** - Miniconda for scientific Python packages
+  - Package manager for data science and scientific computing
 - **LaTeX** - Document preparation
   - TeXLive + TeXmaker editor
   - TEX files
@@ -164,6 +166,25 @@ Edit `install.sh` to:
 - Comment out packages you don't need
 - Add additional packages
 - Change installation methods (e.g., snap vs flatpak vs apt)
+
+## Additional Scripts
+
+### Check Git Repositories
+
+Check all git repositories in a directory for divergence from origin:
+
+```bash
+./check-git-repos.sh [directory]
+```
+
+If no directory is specified, it uses the `ARCHIVE_DIR` environment variable from `.env`, or defaults to `~/Documents/gdrive/Drive/Archive`.
+
+This script reports:
+- Uncommitted changes
+- Unpushed commits
+- Unpulled commits
+- Repositories without remotes
+- Detached HEAD states
 
 ## Maintenance
 

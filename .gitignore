@@ -1,0 +1,5 @@
+# Log files
+check-git-repos.log
+
+# Environment files
+.env

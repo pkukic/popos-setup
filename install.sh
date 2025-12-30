@@ -157,6 +157,23 @@ echo -e "${GREEN}✓${NC} MATLAB dependencies installed"
 echo -e "${YELLOW}Note:${NC} Download MATLAB from MathWorks website"
 echo -e "${YELLOW}      Then run: ./install-matlab.sh${NC}"
 
+# Conda (Miniconda) - for scientific Python packages
+echo ""
+if ! command -v conda &> /dev/null; then
+    echo -e "${YELLOW}Installing Miniconda...${NC}"
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh
+    bash /tmp/miniconda.sh -b -p "$HOME/miniconda3"
+    rm /tmp/miniconda.sh
+
+    # Initialize conda for bash
+    "$HOME/miniconda3/bin/conda" init bash
+
+    echo -e "${GREEN}✓${NC} Miniconda installed"
+    echo -e "${YELLOW}Note:${NC} Restart your shell or run: source ~/.bashrc"
+else
+    echo -e "${GREEN}✓${NC} Conda already installed"
+fi
+
 # LaTeX - for .tex files
 echo ""
 install_if_missing "texlive-full"
@@ -416,7 +433,7 @@ echo "  • Audio/Video - VLC, Audacity, FFmpeg"
 echo "  • 3D Models - Blender, FreeCAD"
 echo ""
 echo "Scientific & Academic:"
-echo "  • Mathematics - GeoGebra, Octave, MATLAB (manual install)"
+echo "  • Mathematics - GeoGebra, Octave, MATLAB (manual install), Conda"
 echo "  • LaTeX - TeXLive, TeXmaker"
 echo "  • Circuit Design - Logisim"
 echo "  • HDL/FPGA - GHDL, Iverilog, GTKWave, Vivado 2024.1 (manual install)"
