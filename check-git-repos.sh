@@ -71,6 +71,19 @@ while IFS= read -r git_dir; do
     # Get current branch
     current_branch=$(git rev-parse --abbrev-ref HEAD 2>/dev/null)
 
+    # Determine repository ownership
+    owner_tag=""
+    origin_url=$(git remote get-url origin 2>/dev/null || echo "")
+
+    if [[ -z "$origin_url" ]]; then
+        owner_tag="${YELLOW}[NO HEAD]${NC}"
+        no_remote=true
+    elif [[ "$origin_url" == *"$GITHUB_USERNAME"* ]]; then
+        owner_tag="${GREEN}[MY REPO]${NC}"
+    else
+        owner_tag="${RED}[OTHER REPO]${NC}"
+    fi
+
     # Check if remote exists
     if ! git remote get-url origin &>/dev/null; then
         no_remote=true
@@ -93,7 +106,7 @@ while IFS= read -r git_dir; do
     # Skip repos that only have detached head + no remote (these are likely example/tutorial repos)
     if $detached_head && $no_remote && ! $has_changes && ! $has_unpushed && ! $has_unpulled; then
         # Not considered diverged - just a local example repo
-        log "${GREEN}[CLEAN]${NC} $repo_name"
+        log "${GREEN}[CLEAN]${NC} $owner_tag $repo_name"
         log "  Path: $repo_dir"
         log "  Status: clean (local example repo)"
         log ""
@@ -122,13 +135,13 @@ while IFS= read -r git_dir; do
 
         diverged_repos+=("$repo_dir|$status_msg")
 
-        log "${YELLOW}[DIVERGED]${NC} $repo_name"
+        log "${YELLOW}[DIVERGED]${NC} $owner_tag $repo_name"
         log "  Path: $repo_dir"
         log "  Status: $status_msg"
         log ""
     else
         # Repository is clean
-        log "${GREEN}[CLEAN]${NC} $repo_name"
+        log "${GREEN}[CLEAN]${NC} $owner_tag $repo_name"
         log "  Path: $repo_dir"
         log "  Status: clean"
         log ""
