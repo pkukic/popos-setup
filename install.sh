@@ -249,6 +249,7 @@ mkdir -p "$ANKI_ADDON_DIR"
 
 # Define addons: ID and name pairs
 declare -A ANKI_ADDONS=(
+    ["2055492159"]="AnkiConnect"
     ["1842249105"]="Review Heatmap (New Added Heatmap)"
     ["2084557901"]="LPCG (Lyrics/Poetry Cloze Generator)"
     ["1374772155"]="Image Occlusion Enhanced"
