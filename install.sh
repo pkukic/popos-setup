@@ -235,6 +235,73 @@ echo -e "${BLUE}=== Learning Tools ===${NC}"
 # For APKG (2) files - Anki flashcards
 install_if_missing "anki"
 
+# Anki Addons Installation
+# Note: AnkiWeb doesn't provide a public API for downloading addons directly.
+# This section creates placeholder files and provides addon IDs for manual installation.
+echo ""
+echo -e "${YELLOW}Setting up Anki addons...${NC}"
+
+# Anki addons directory (created after first Anki run)
+ANKI_ADDON_DIR="$HOME/.local/share/Anki2/User 1/addons21"
+
+# Create addons directory if it doesn't exist
+mkdir -p "$ANKI_ADDON_DIR"
+
+# Define addons: ID and name pairs
+declare -A ANKI_ADDONS=(
+    ["1842249105"]="Review Heatmap (New Added Heatmap)"
+    ["2084557901"]="LPCG (Lyrics/Poetry Cloze Generator)"
+    ["1374772155"]="Image Occlusion Enhanced"
+    ["874215009"]="Advanced Browser"
+    ["759844606"]="FSRS Helper"
+)
+
+# Track addons that need manual installation
+ADDONS_TO_INSTALL=()
+
+for addon_id in "${!ANKI_ADDONS[@]}"; do
+    addon_name="${ANKI_ADDONS[$addon_id]}"
+    addon_path="$ANKI_ADDON_DIR/$addon_id"
+    
+    if [ -d "$addon_path" ] && [ "$(ls -A "$addon_path" 2>/dev/null)" ]; then
+        echo -e "${GREEN}✓${NC} Anki addon '$addon_name' already installed"
+    else
+        echo -e "${YELLOW}○${NC} Anki addon '$addon_name' needs installation (ID: $addon_id)"
+        ADDONS_TO_INSTALL+=("$addon_id:$addon_name")
+    fi
+done
+
+# Show installation instructions if any addons need to be installed
+if [ ${#ADDONS_TO_INSTALL[@]} -gt 0 ]; then
+    echo ""
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo -e "${YELLOW}Anki Addon Installation Required${NC}"
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+    echo ""
+    echo "To install the missing addons, open Anki and go to:"
+    echo "  Tools → Add-ons → Get Add-ons..."
+    echo ""
+    echo "Then paste the following addon IDs (one at a time or all at once separated by spaces):"
+    echo ""
+    
+    addon_ids_only=""
+    for addon_entry in "${ADDONS_TO_INSTALL[@]}"; do
+        addon_id="${addon_entry%%:*}"
+        addon_name="${addon_entry#*:}"
+        echo -e "  ${BLUE}$addon_id${NC} - $addon_name"
+        if [ -z "$addon_ids_only" ]; then
+            addon_ids_only="$addon_id"
+        else
+            addon_ids_only="$addon_ids_only $addon_id"
+        fi
+    done
+    
+    echo ""
+    echo -e "All IDs for copy-paste: ${BLUE}$addon_ids_only${NC}"
+    echo ""
+    echo -e "${YELLOW}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+fi
+
 # =============================================================================
 # NOTE-TAKING & KNOWLEDGE MANAGEMENT
 # =============================================================================
